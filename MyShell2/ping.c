@@ -112,7 +112,7 @@ int icmp_unpack(char* buf, int len)
     {
         if((icmp->icmp_seq < 0) || (icmp->icmp_seq > PACKET_SEND_MAX_NUM))
         {
-            fprintf(stderr, "icmp packet seq is out of range!\n");
+            alive = 0;
             return -1;
         }
 
@@ -214,7 +214,7 @@ void ping_stats_show()
     long time = time_interval.tv_sec*1000+time_interval.tv_usec/1000;
     /*注意除数不能为零，这里send_count有可能为零，所以运行时提示错误*/
     printf("%d packets transmitted, %d recieved, %d%c packet loss, time %ldms\n",
-        send_count, recv_count, (send_count-recv_count)*100/send_count, '%', time);
+        send_count-1, recv_count, (send_count-1-recv_count)*100/(send_count-1), '%', time);
 }
 
 
